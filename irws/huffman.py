@@ -1,38 +1,45 @@
 # application to do huffman coding and decoding.
 import sys
 from collections import Counter
+import math
 
-def extract(fname):
-  global pString
-  for words in open(fname,'r'):
-    pString=pString+words.split() #create a list of words from a given file
-
-def readFiles(flist):
-	for file  in flist: # loop through files and process
-		extract(file)	
-		
-def mkNL(list):
-	x01=list[:2]
-	list=[(x01,x01[0][1]+x01[1][1])]+list[2:]
-	return list
-
-def mkNested(list):
-	for i in range(len(list)-1):
-		list=sorted(mkNL(list),key=getKEY)
-	return list
-	
 
 # for assisting in sort operations
-def getKEY(item):
+def key01(item):
 	return item[1]
+
+def readFiles(flist):
+  pString=[]
+  for file01  in flist: # loop through files and process
+    pString=pString+open(file01,'r').read().split()
+  return sorted(Counter(pString).most_common())
+
+def c2process(l):
+	while len(l)>1:
+		l=sorted(l,key=key01)
+		x=([l[0][0]]+[l[1][0]],l[0][1]+l[1][1])
+		del l[0:2]
+		l.append(x)
+	return l[0][0]
+
+def c3process(l01):	
+	pass
 	
 	
 	
+			
+	
+
+
 if __name__=='__main__':
-	global pString # process string holder
-	pString=[] # initialize process string
-	readFiles(sys.argv[1:])
-	sortedList=sorted(Counter(pString).most_common(),reverse=True)
-	sortedList=mkNested(sortedList)
-	print sortedList
+	sl01=readFiles(sys.argv[1:])
+	sl01=sorted(sl01,key=key01)
+	sl02=c2process(sl01)
+	print sl02
+
 	
+
+
+
+
+
